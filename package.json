@@ -1,0 +1,69 @@
+{
+    "name": "fileswitcher",
+    "displayName": "File Switcher",
+    "description": "Easily switch between related files with custom mappings. Language agnostic.",
+    "version": "0.0.1",
+    "author": {
+        "name": "Johnathan Ludwig",
+        "email": "john@johnathanludwig.com"
+    },
+    "publisher": "johnathanludwig",
+    "engines": {
+        "vscode": "^1.17.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:fileswitcher.switchFile",
+        "onCommand:fileswitcher.switchFileTab"
+    ],
+    "main": "./src/extension",
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "FileSwitcher configuration",
+            "properties": {
+                "fileswitcher.mappings": {
+                    "type": "array",
+                    "default": [],
+                    "description": "List of file mappings"
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "fileswitcher.switchFile",
+                "title": "FileSwitcher: Switch File"
+            },
+            {
+                "command": "fileswitcher.switchFileTab",
+                "title": "FileSwitcher: Switch File New Tab"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "fileswitcher.switchFile",
+                "key": "alt+r",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "fileswitcher.switchFileTab",
+                "key": "alt+shift+r",
+                "when": "editorTextFocus"
+            }
+        ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.5.2",
+        "vscode": "^1.1.5",
+        "mocha": "^3.5.0",
+        "eslint": "^4.6.1",
+        "@types/node": "^7.0.0",
+        "@types/mocha": "^2.2.42"
+    }
+}
