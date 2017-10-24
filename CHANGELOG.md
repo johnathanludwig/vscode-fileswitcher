@@ -1,7 +1,4 @@
-# Change Log
-All notable changes to the "fileswitcher" extension will be documented in this file.
+# Changelog
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
+## v0.5.0
 - Initial release

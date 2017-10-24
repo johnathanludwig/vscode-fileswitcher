@@ -1,7 +1,7 @@
 {
     "name": "fileswitcher",
     "displayName": "File Switcher",
-    "description": "FileSwitcher allows you to quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
+    "description": "Quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
     "version": "0.5.0",
     "author": {
         "name": "Johnathan Ludwig",
@@ -13,6 +13,15 @@
     },
     "categories": [
         "Other"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/johnathanludwig/vscode-fileswitcher.git"
+    },
+    "keywords": [
+        "file",
+        "switch",
+        "test"
     ],
     "activationEvents": [
         "onCommand:fileswitcher.switchFile",
@@ -50,26 +59,6 @@
                         {
                             "from": "test/(.+).test.js",
                             "to": "src/:1.js"
-                        },
-                        {
-                            "from": "app/controllers/api/(.+)_controller.rb",
-                            "to": "test/controllers/api/v2/:1_controller_test.rb"
-                        },
-                        {
-                            "from": "test/controllers/api/v2/(.+)_controller_test.rb",
-                            "to": "app/controllers/api/:1_controller.rb"
-                        },
-                        {
-                            "from": "app/views/(.+)_mailer/(.+)",
-                            "to": "test/mailers/:1_mailer_test.rb"
-                        },
-                        {
-                            "from": "config/initializers/extensions/(.+).rb",
-                            "to": "test/extensions/:1_test.rb"
-                        },
-                        {
-                            "from": "test/extensions/(.+)_test.rb",
-                            "to": "config/initializers/extensions/:1.rb"
                         }
                     ],
                     "description": "List of file mappings"
