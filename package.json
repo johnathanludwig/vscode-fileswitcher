@@ -1,8 +1,8 @@
 {
     "name": "fileswitcher",
     "displayName": "File Switcher",
-    "description": "Easily switch between related files with custom mappings. Language agnostic.",
-    "version": "0.0.1",
+    "description": "FileSwitcher allows you to quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
+    "version": "0.5.0",
     "author": {
         "name": "Johnathan Ludwig",
         "email": "john@johnathanludwig.com"
@@ -16,7 +16,7 @@
     ],
     "activationEvents": [
         "onCommand:fileswitcher.switchFile",
-        "onCommand:fileswitcher.switchFileTab"
+        "onCommand:fileswitcher.switchFileSplit"
     ],
     "main": "./src/extension",
     "contributes": {
@@ -26,7 +26,52 @@
             "properties": {
                 "fileswitcher.mappings": {
                     "type": "array",
-                    "default": [],
+                    "default": [
+                        {
+                            "from": "app/(.+)\\.(.+)",
+                            "to": "test/:1_test.:2"
+                        },
+                        {
+                            "from": "test/(.+)_test\\.(.+)",
+                            "to": "app/:1.:2"
+                        },
+                        {
+                            "from": "app/(.+)\\.(.+)",
+                            "to": "spec/:1_spec.:2"
+                        },
+                        {
+                            "from": "spec/(.+)_spec\\.(.+)",
+                            "to": "app/:1.:2"
+                        },
+                        {
+                            "from": "src/(.+).js",
+                            "to": "test/:1.test.js"
+                        },
+                        {
+                            "from": "test/(.+).test.js",
+                            "to": "src/:1.js"
+                        },
+                        {
+                            "from": "app/controllers/api/(.+)_controller.rb",
+                            "to": "test/controllers/api/v2/:1_controller_test.rb"
+                        },
+                        {
+                            "from": "test/controllers/api/v2/(.+)_controller_test.rb",
+                            "to": "app/controllers/api/:1_controller.rb"
+                        },
+                        {
+                            "from": "app/views/(.+)_mailer/(.+)",
+                            "to": "test/mailers/:1_mailer_test.rb"
+                        },
+                        {
+                            "from": "config/initializers/extensions/(.+).rb",
+                            "to": "test/extensions/:1_test.rb"
+                        },
+                        {
+                            "from": "test/extensions/(.+)_test.rb",
+                            "to": "config/initializers/extensions/:1.rb"
+                        }
+                    ],
                     "description": "List of file mappings"
                 }
             }
@@ -37,8 +82,8 @@
                 "title": "FileSwitcher: Switch File"
             },
             {
-                "command": "fileswitcher.switchFileTab",
-                "title": "FileSwitcher: Switch File New Tab"
+                "command": "fileswitcher.switchFileSplit",
+                "title": "FileSwitcher: Switch File in Split Editor"
             }
         ],
         "keybindings": [
@@ -48,7 +93,7 @@
                 "when": "editorTextFocus"
             },
             {
-                "command": "fileswitcher.switchFileTab",
+                "command": "fileswitcher.switchFileSplit",
                 "key": "alt+shift+r",
                 "when": "editorTextFocus"
             }

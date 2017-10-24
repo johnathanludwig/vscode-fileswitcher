@@ -1,27 +1,45 @@
-# fileswitcher README
+# FileSwitcher
 
-This is the README for your extension "fileswitcher". After writing up a brief description, we recommend including the following sections.
+FileSwitcher allows you to quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure.
 
-## Features
+### Preview
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+![FileSwitcher preview](https://raw.githubusercontent.com/johnathanludwig/vscode-fileswitcher/master/images/preview.gif)
 
-For example if there is an image subfolder under your extension project workspace:
+## Commands and Keybindings
 
-\!\[feature X\]\(images/feature-x.png\)
+Command         | Default Binding | Description
+---                           | --- | ---
+FileSwitcher: Switch File | alt + R | Open first matched file in current editor
+FileSwitcher: Switch File in Split Editor | alt + shift + R | Open first matched file in a split editor
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Configuration
 
-## Requirements
+### fileswitcher.mappings
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+A configurable set of rules for files to match related files. Mappings should be an array of JSON objects. Each object should include a `from` and a `to` key.
 
-## Extension Settings
+#### Example
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```json
+"fileswitcher.mappings": [
+  {
+    "from": "app/(.+).rb",
+    "to": "test/:1_test.rb"
+  },
+  {
+    "from": "test/(.+)_test.rb",
+    "to": "app/:1.rb"
+  }
+]
+```
 
-For example:
+The `from` key must be a string that converts to a regex. This regex should match the file you are triggering the "Switch File" command on.
 
-This extension contributes the following settings:
+The `to` key should be a string path to the target file to open when "Switch File" is triggered. You may use matches in the regex in the `from` setting by using `:<match number>`.
 
-* `fileswitcher.mappings`: an array of mappings
+In the example above, triggering switch file on `app/models/user.rb` will match the first mapping, set `:1` to `models/user`, and then open the related file `app/models/user_test.rb`. Triggering again on the test file will then match with the second mapping, and switch back to `app/models/user.rb`.
+
+## Credits
+
+Inspired by [atom-ruby-test-switcher](https://github.com/dcarral/atom-ruby-test-switcher).

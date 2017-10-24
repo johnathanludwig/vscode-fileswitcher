@@ -13,17 +13,17 @@ function activate(context) {
         if (newFilePath == null) {
             return;
         }
-        vscode.workspace.findFiles(newFilePath, '').then(openInWindow);
+        vscode.workspace.findFiles(newFilePath, '').then(openInCurrentEditor);
     });
 
     context.subscriptions.push(switcher);
 
-    switcher = vscode.commands.registerCommand('fileswitcher.switchFileTab', function () {
+    switcher = vscode.commands.registerCommand('fileswitcher.switchFileSplit', function () {
         var newFilePath = findFile();
         if (newFilePath == null) {
             return;
         }
-        vscode.workspace.findFiles(newFilePath, '').then(openInTab);
+        vscode.workspace.findFiles(newFilePath, '').then(openInSplitEditor);
     });
 
     context.subscriptions.push(switcher);
@@ -34,13 +34,13 @@ function deactivate() {
 }
 exports.deactivate = deactivate;
 
-function openInWindow(files) {
+function openInCurrentEditor(files) {
     if (files.length > 0) {
         vscode.window.showTextDocument(files[0]);
     }
 }
 
-function openInTab(files) {
+function openInSplitEditor(files) {
     if (files.length > 0) {
         if (vscode.window.activeTextEditor.viewColumn == 1) {
             vscode.window.showTextDocument(files[0], vscode.ViewColumn.Two);
