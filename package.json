@@ -1,100 +1,108 @@
 {
-    "name": "fileswitcher",
-    "displayName": "File Switcher",
-    "description": "Quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
-    "version": "0.5.0",
-    "author": {
-        "name": "Johnathan Ludwig",
-        "email": "john@johnathanludwig.com"
-    },
-    "publisher": "johnathanludwig",
-    "engines": {
-        "vscode": "^1.17.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/johnathanludwig/vscode-fileswitcher.git"
-    },
-    "keywords": [
-        "file",
-        "switch",
-        "test"
-    ],
-    "activationEvents": [
-        "onCommand:fileswitcher.switchFile",
-        "onCommand:fileswitcher.switchFileSplit"
-    ],
-    "main": "./src/extension",
-    "contributes": {
-        "configuration": {
-            "type": "object",
-            "title": "FileSwitcher configuration",
-            "properties": {
-                "fileswitcher.mappings": {
-                    "type": "array",
-                    "default": [
-                        {
-                            "from": "app/(.+)\\.(.+)",
-                            "to": "test/:1_test.:2"
-                        },
-                        {
-                            "from": "test/(.+)_test\\.(.+)",
-                            "to": "app/:1.:2"
-                        },
-                        {
-                            "from": "app/(.+)\\.(.+)",
-                            "to": "spec/:1_spec.:2"
-                        },
-                        {
-                            "from": "spec/(.+)_spec\\.(.+)",
-                            "to": "app/:1.:2"
-                        },
-                        {
-                            "from": "src/(.+).js",
-                            "to": "test/:1.test.js"
-                        },
-                        {
-                            "from": "test/(.+).test.js",
-                            "to": "src/:1.js"
-                        }
-                    ],
-                    "description": "List of file mappings"
-                }
-            }
-        },
-        "commands": [
+  "name": "fileswitcher",
+  "displayName": "File Switcher",
+  "description": "Quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
+  "version": "0.5.0",
+  "author": {
+    "name": "Johnathan Ludwig",
+    "email": "john@johnathanludwig.com"
+  },
+  "publisher": "johnathanludwig",
+  "engines": {
+    "vscode": "^1.32.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnathanludwig/vscode-fileswitcher.git"
+  },
+  "keywords": [
+    "file",
+    "switch",
+    "test"
+  ],
+  "activationEvents": [
+    "onCommand:fileswitcher.switchFile",
+    "onCommand:fileswitcher.switchFileSplit"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "FileSwitcher configuration",
+      "properties": {
+        "fileswitcher.mappings": {
+          "type": "array",
+          "default": [
             {
-                "command": "fileswitcher.switchFile",
-                "title": "FileSwitcher: Switch File"
+              "from": "app/(.+)\\.(.+)",
+              "to": "test/:1_test.:2"
             },
             {
-                "command": "fileswitcher.switchFileSplit",
-                "title": "FileSwitcher: Switch File in Split Editor"
-            }
-        ],
-        "keybindings": [
-            {
-                "command": "fileswitcher.switchFile",
-                "key": "alt+r",
-                "when": "editorTextFocus"
+              "from": "test/(.+)_test\\.(.+)",
+              "to": "app/:1.:2"
             },
             {
-                "command": "fileswitcher.switchFileSplit",
-                "key": "alt+shift+r",
-                "when": "editorTextFocus"
+              "from": "app/(.+)\\.(.+)",
+              "to": "spec/:1_spec.:2"
+            },
+            {
+              "from": "spec/(.+)_spec\\.(.+)",
+              "to": "app/:1.:2"
+            },
+            {
+              "from": "src/(.+).js",
+              "to": "test/:1.test.js"
+            },
+            {
+              "from": "test/(.+).test.js",
+              "to": "src/:1.js"
             }
-        ]
+          ],
+          "description": "List of file mappings"
+        }
+      }
     },
-    "scripts": {
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/node": "^13.11.1",
-        "eslint": "^6.8.0",
-        "typescript": "^3.8.3"
-    },
-    "dependencies": {}
+    "commands": [
+      {
+        "command": "fileswitcher.switchFile",
+        "title": "FileSwitcher: Switch File (dev)"
+      },
+      {
+        "command": "fileswitcher.switchFileSplit",
+        "title": "FileSwitcher: Switch File in Split Editor"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "fileswitcher.switchFile",
+        "key": "alt+r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "fileswitcher.switchFileSplit",
+        "key": "alt+shift+r",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint . --ext .ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "@types/vscode": "^1.44.0",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
+    "eslint": "^6.8.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {}
 }
