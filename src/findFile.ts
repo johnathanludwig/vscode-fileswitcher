@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 
+const REGEX_SYMBOL = ":";
+
 function currentFile(): string {
   const currentFile = vscode.window.activeTextEditor;
 
@@ -28,8 +30,8 @@ function matchFile(filePath: string, mappings): string {
 
     let newFilePath = mapping["to"];
 
-    match.forEach((i2) => {
-      newFilePath = newFilePath.replace(":" + i2, match[i2]);
+    match.forEach((item, index) => {
+      newFilePath = newFilePath.replace(REGEX_SYMBOL + index, item);
     });
 
     matches.push(newFilePath);

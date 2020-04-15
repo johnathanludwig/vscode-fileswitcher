@@ -2,9 +2,9 @@ import * as vscode from "vscode";
 import findFile from "./findFile";
 
 function openInCurrentEditor(files): void {
-  if (files.length > 0) {
-    vscode.window.showTextDocument(files[0]);
-  }
+  if (files.length === 0) return;
+
+  vscode.window.showTextDocument(files[0]);
 }
 
 function openInSplitEditor(files): void {
@@ -22,9 +22,9 @@ export function activate(context: vscode.ExtensionContext): void {
     "fileswitcher.switchFile",
     function () {
       const newFilePath = findFile();
-      if (newFilePath === undefined) {
-        return;
-      }
+
+      if (newFilePath === undefined) return;
+
       vscode.workspace.findFiles(newFilePath, "").then(openInCurrentEditor);
     }
   );
@@ -35,9 +35,9 @@ export function activate(context: vscode.ExtensionContext): void {
     "fileswitcher.switchFileSplit",
     function () {
       const newFilePath = findFile();
-      if (newFilePath === undefined) {
-        return;
-      }
+
+      if (newFilePath === undefined) return;
+
       vscode.workspace.findFiles(newFilePath, "").then(openInSplitEditor);
     }
   );
@@ -46,5 +46,5 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 export function deactivate(): void {
-  // empty intentionally
+  // intentionally empty
 }
