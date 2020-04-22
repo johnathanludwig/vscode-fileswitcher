@@ -1,31 +1,30 @@
 import * as vscode from "vscode";
 import findFile from "./findFile";
 
-function openInCurrentEditor(files): void {
-  if (files.length === 0) return;
+function openInCurrentEditor(file): void {
+  // if (files.length === 0) return;
 
-  vscode.window.showTextDocument(files[0]);
+  vscode.window.showTextDocument(file);
 }
 
-function openInSplitEditor(files): void {
-  if (files.length > 0) {
-    if (vscode.window.activeTextEditor.viewColumn === 1) {
-      vscode.window.showTextDocument(files[0], vscode.ViewColumn.Two);
-    } else {
-      vscode.window.showTextDocument(files[0], vscode.ViewColumn.One);
-    }
+function openInSplitEditor(file): void {
+  if (vscode.window.activeTextEditor.viewColumn === 1) {
+    vscode.window.showTextDocument(file, vscode.ViewColumn.Two);
+  } else {
+    vscode.window.showTextDocument(file, vscode.ViewColumn.One);
   }
 }
 
 export function activate(context: vscode.ExtensionContext): void {
   const switcher = vscode.commands.registerCommand(
     "fileswitcher.switchFile",
-    function () {
-      const newFilePath = findFile();
+    async function () {
+      const newFilePath = await findFile();
 
+      console.log("newFilePath", newFilePath);
       if (newFilePath === undefined) return;
 
-      vscode.workspace.findFiles(newFilePath, "").then(openInCurrentEditor);
+      openInCurrentEditor(newFilePath);
     }
   );
 
@@ -33,12 +32,13 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const switchSplit = vscode.commands.registerCommand(
     "fileswitcher.switchFileSplit",
-    function () {
-      const newFilePath = findFile();
+    async function () {
+      const newFilePath = await findFile();
 
+      console.log("newFilePath", newFilePath);
       if (newFilePath === undefined) return;
 
-      vscode.workspace.findFiles(newFilePath, "").then(openInSplitEditor);
+      openInSplitEditor(newFilePath);
     }
   );
 

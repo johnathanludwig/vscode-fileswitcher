@@ -40,7 +40,7 @@ function matchFile(filePath: string, mappings): string {
   return arrayToGlob(matches);
 }
 
-export default function findFile(): string | undefined {
+export default async function findFile(): Promise<string | undefined> {
   const mappings = vscode.workspace
     .getConfiguration()
     .get("fileswitcher.mappings");
@@ -49,5 +49,23 @@ export default function findFile(): string | undefined {
 
   if (filePath === undefined) return;
 
-  return matchFile(filePath, mappings);
+  const fileMappings = matchFile(filePath, mappings);
+  const files = await vscode.workspace.findFiles(fileMappings, "");
+
+  console.log("files", files);
+
+  let file;
+  if (files.length === 1) {
+    file = files[0];
+  } else {
+    const selected = await vscode.window.showQuickPick(
+      files.map((f) => f.path)
+    );
+    console.log("selected", selected);
+    if (!selected) return;
+    file = files.find((f) => f.path === selected);
+  }
+
+  console.log("file", file);
+  return file;
 }
