@@ -1,9 +1,1 @@
-{
-  "tabWidth": 2,
-  "useTabs": false,
-  "semicolons": true,
-  "quotes": false,
-  "quoteProps": "as-needed",
-  "jsxSingleQuote": false,
-  "trailingComma": "es5"
-}
+{}
