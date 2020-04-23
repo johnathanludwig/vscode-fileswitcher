@@ -2,15 +2,18 @@ import * as vscode from "vscode";
 
 const REGEX_SYMBOL = ":";
 
+function stripRootPath(file: string): string {
+  const rootPath = vscode.workspace.rootPath;
+
+  return file.replace(rootPath + "/", "");
+}
+
 function currentFile(): string {
   const currentFile = vscode.window.activeTextEditor;
 
   if (currentFile === undefined) return;
 
-  const rootPath = vscode.workspace.rootPath;
-  const currentFileName = currentFile.document.fileName;
-
-  return currentFileName.replace(rootPath + "/", "");
+  return stripRootPath(currentFile.document.fileName);
 }
 
 function arrayToGlob(matches): string {
@@ -19,7 +22,11 @@ function arrayToGlob(matches): string {
   return glob;
 }
 
-function matchFile(filePath: string, mappings): string {
+function generateFilePaths(filePath: string): string {
+  const mappings: object[] = vscode.workspace
+    .getConfiguration()
+    .get("fileswitcher.mappings");
+
   const matches = [];
 
   mappings.forEach((mapping) => {
@@ -40,32 +47,28 @@ function matchFile(filePath: string, mappings): string {
   return arrayToGlob(matches);
 }
 
-export default async function findFile(): Promise<string | undefined> {
-  const mappings = vscode.workspace
-    .getConfiguration()
-    .get("fileswitcher.mappings");
+function findMatchingFiles(file: string): Thenable<vscode.Uri[]> {
+  const matches = generateFilePaths(file);
 
+  return vscode.workspace.findFiles(matches, "");
+}
+
+async function selectFile(files): Promise<object> {
+  if (files.length === 1) return files[0];
+
+  const selected = await vscode.window.showQuickPick(files.map((f) => f.path));
+
+  if (!selected) return;
+
+  return files.find((f) => f.path === selected);
+}
+
+export default async function findFile(): Promise<object | undefined> {
   const filePath = currentFile();
-
   if (filePath === undefined) return;
 
-  const fileMappings = matchFile(filePath, mappings);
-  const files = await vscode.workspace.findFiles(fileMappings, "");
+  const files = await findMatchingFiles(filePath);
+  const selectedFile = selectFile(files);
 
-  console.log("files", files);
-
-  let file;
-  if (files.length === 1) {
-    file = files[0];
-  } else {
-    const selected = await vscode.window.showQuickPick(
-      files.map((f) => f.path)
-    );
-    console.log("selected", selected);
-    if (!selected) return;
-    file = files.find((f) => f.path === selected);
-  }
-
-  console.log("file", file);
-  return file;
+  return selectedFile;
 }
