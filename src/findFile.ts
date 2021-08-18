@@ -65,7 +65,10 @@ async function selectFile(files): Promise<vscode.Uri[]> {
 
   if (!selected) return;
 
-  return files.find((f) => f.path === selected);
+  const selectedFile = files.find((f) => f.path === selected);
+
+  const file = await selectedFile;
+  return file;
 }
 
 export default async function findFile(): Promise<vscode.Uri[] | undefined> {
@@ -73,7 +76,18 @@ export default async function findFile(): Promise<vscode.Uri[] | undefined> {
   if (filePath === undefined) return;
 
   const files = await findMatchingFiles(filePath);
-  const selectedFile = selectFile(files);
+  const selectedFile = await selectFile(files);
 
-  return selectedFile;
+  if (selectedFile) {
+    return selectedFile;
+  } else {
+    vscode.window.setStatusBarMessage(
+      "No matching file found",
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true);
+        }, 5000);
+      })
+    );
+  }
 }
