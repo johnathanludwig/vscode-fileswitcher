@@ -25,7 +25,8 @@
   ],
   "activationEvents": [
     "onCommand:fileswitcher.switchFile",
-    "onCommand:fileswitcher.switchFileSplit"
+    "onCommand:fileswitcher.switchFileSplit",
+    "onCommand:fileswitcher.listMappings"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -89,6 +90,10 @@
       {
         "command": "fileswitcher.switchFileSplit",
         "title": "FileSwitcher: Switch File in Split Editor"
+      },
+      {
+        "command": "fileswitcher.listMappings",
+        "title": "FileSwitcher: List generated mappings for current file"
       }
     ],
     "keybindings": [

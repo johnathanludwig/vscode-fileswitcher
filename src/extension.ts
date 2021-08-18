@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import findFile from "./findFile";
+import findFile, { displayMappings } from "./findFile";
 
 function openFile(file, column = vscode.ViewColumn.Active): void {
   if (file === undefined) return;
@@ -33,6 +33,15 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(switchSplit);
+
+  const listMappings = vscode.commands.registerCommand(
+    "fileswitcher.listMappings",
+    async function () {
+      displayMappings();
+    }
+  );
+
+  context.subscriptions.push(listMappings);
 }
 
 export function deactivate(): void {
