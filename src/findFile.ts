@@ -27,7 +27,11 @@ type Mapping = {
   to: string;
 };
 
-function generateFilePaths(filePath: string): string {
+type Match = {
+  path: string;
+} & Mapping;
+
+function generateFilePaths(filePath: string): Match[] {
   const mappings: Mapping[] = vscode.workspace
     .getConfiguration()
     .get("fileswitcher.mappings");
@@ -46,16 +50,19 @@ function generateFilePaths(filePath: string): string {
       newFilePath = newFilePath.replace(REGEX_SYMBOL + index, item);
     });
 
-    matches.push(newFilePath);
+    matches.push({ from: mapping.from, to: mapping.to, path: newFilePath });
   });
 
-  return arrayToGlob(matches);
+  return matches;
 }
 
 function findMatchingFiles(file: string): Thenable<vscode.Uri[]> {
   const matches = generateFilePaths(file);
 
-  return vscode.workspace.findFiles(matches, "");
+  return vscode.workspace.findFiles(
+    arrayToGlob(matches.map((match) => match.path)),
+    ""
+  );
 }
 
 async function selectFile(files): Promise<vscode.Uri[]> {
@@ -90,4 +97,19 @@ export default async function findFile(): Promise<vscode.Uri[] | undefined> {
       })
     );
   }
+}
+
+export async function displayMappings(): Promise<void> {
+  const filePath = currentFile();
+  if (filePath === undefined) return;
+
+  const matches = generateFilePaths(filePath);
+
+  const quickPick = vscode.window.createQuickPick();
+  quickPick.items = matches.map((match) => ({
+    label: match.path,
+    detail: `From ${match.from} — To ${match.to}`,
+  }));
+
+  quickPick.show();
 }
