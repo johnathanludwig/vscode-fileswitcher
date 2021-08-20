@@ -47,7 +47,10 @@ function generateFilePaths(filePath: string): Match[] {
     let newFilePath = mapping["to"];
 
     match.forEach((item, index) => {
-      newFilePath = newFilePath.replace(REGEX_SYMBOL + index, item);
+      newFilePath = newFilePath.replace(
+        new RegExp(REGEX_SYMBOL + index, "g"),
+        item
+      );
     });
 
     matches.push({ from: mapping.from, to: mapping.to, path: newFilePath });
