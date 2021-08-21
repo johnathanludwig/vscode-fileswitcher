@@ -2,7 +2,7 @@
   "name": "fileswitcher",
   "displayName": "File Switcher",
   "description": "Quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "author": {
     "name": "Johnathan Ludwig",
     "email": "john@johnathanludwig.com"
