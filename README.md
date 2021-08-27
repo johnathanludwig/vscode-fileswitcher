@@ -8,10 +8,11 @@ FileSwitcher allows you to quickly jump to a file related to the currently opene
 
 ## Commands and Keybindings
 
-Command         | Default Binding | Description
----                           | --- | ---
-FileSwitcher: Switch File | alt + R | Open first matched file in current editor
-FileSwitcher: Switch File in Split Editor | alt + shift + R | Open first matched file in a split editor
+| Command                                  | Default Binding | Description                                                                                              |
+| ---------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------- |
+| Switch File                              | alt + R         | Open first matched file in current editor                                                                |
+| Switch File in Split Editor              | alt + shift + R | Open first matched file in a split editor                                                                |
+| List generated mappings for current file |                 | Displays the generated file names used for matching for the current file. Useful for debugging mappings. |
 
 ## Configuration
 
