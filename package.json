@@ -26,7 +26,8 @@
   "activationEvents": [
     "onCommand:fileswitcher.switchFile",
     "onCommand:fileswitcher.switchFileSplit",
-    "onCommand:fileswitcher.listMappings"
+    "onCommand:fileswitcher.listMappings",
+    "onCommand:fileswitcher.createFile"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -94,6 +95,10 @@
       {
         "command": "fileswitcher.listMappings",
         "title": "FileSwitcher: List generated mappings for current file"
+      },
+      {
+        "command": "fileswitcher.createFile",
+        "title": "FileSwitcher: Create file from mapping"
       }
     ],
     "keybindings": [

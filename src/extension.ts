@@ -1,47 +1,39 @@
 import * as vscode from "vscode";
-import findFile, { displayMappings } from "./findFile";
-
-function openFile(file, column = vscode.ViewColumn.Active): void {
-  if (file === undefined) return;
-
-  vscode.window.showTextDocument(file, column);
-}
+import {
+  switchFile,
+  switchFileSplit,
+  createTargetFile,
+  displayMappings,
+} from "./api";
 
 export function activate(context: vscode.ExtensionContext): void {
   const switcher = vscode.commands.registerCommand(
     "fileswitcher.switchFile",
-    async function () {
-      const file = await findFile();
-
-      openFile(file);
-    }
+    switchFile
   );
 
   context.subscriptions.push(switcher);
 
   const switchSplit = vscode.commands.registerCommand(
     "fileswitcher.switchFileSplit",
-    async function () {
-      const file = await findFile();
-      const column =
-        vscode.window.activeTextEditor.viewColumn === 1
-          ? vscode.ViewColumn.Two
-          : vscode.ViewColumn.One;
-
-      openFile(file, column);
-    }
+    switchFileSplit
   );
 
   context.subscriptions.push(switchSplit);
 
   const listMappings = vscode.commands.registerCommand(
     "fileswitcher.listMappings",
-    async function () {
-      displayMappings();
-    }
+    displayMappings
   );
 
   context.subscriptions.push(listMappings);
+
+  const createFileCommand = vscode.commands.registerCommand(
+    "fileswitcher.createFile",
+    createTargetFile
+  );
+
+  context.subscriptions.push(createFileCommand);
 }
 
 export function deactivate(): void {
