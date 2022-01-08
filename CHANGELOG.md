@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.9.0
+
+### Features
+
+- Add command to create a missing file from mapping.
+- No longer show the full system path of files when multiple matches occur while switching a file.
+
 ## v0.8.0
 
 ### Features
