@@ -1,6 +1,7 @@
-import * as vscode from "vscode";
 import * as fs from "fs";
 import { sep } from "path";
+
+import * as vscode from "vscode";
 
 export function workspaceRootPath(): string {
   return vscode.workspace.workspaceFolders[0].uri.path + sep;
@@ -43,3 +44,14 @@ export const createFileIfNotExists = (filePath: string): void => {
 
   createFile(filePath);
 };
+
+export function displayStatusBarMessage(message: string): void {
+  vscode.window.setStatusBarMessage(
+    message,
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, 5000);
+    })
+  );
+}

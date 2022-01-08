@@ -1,8 +1,15 @@
+import { sep } from "path";
+
+import * as vscode from "vscode";
+
 import { findFile, generateFilePaths } from "./findFile";
 import { currentFile } from "./utils";
-import * as vscode from "vscode";
-import { createFileIfNotExists, fileExists, workspaceRootPath } from "./utils";
-import { sep } from "path";
+import {
+  createFileIfNotExists,
+  displayStatusBarMessage,
+  fileExists,
+  workspaceRootPath,
+} from "./utils";
 
 function openFile(file, column = vscode.ViewColumn.Active): void {
   if (file === undefined) return;
@@ -32,7 +39,15 @@ export async function displayMappings(): Promise<void> {
 
   const matches = generateFilePaths(filePath);
 
+  if (matches.length === 0) {
+    displayStatusBarMessage(
+      'No mappings match current file. Check the "from" of your mappings.'
+    );
+    return;
+  }
+
   const quickPick = vscode.window.createQuickPick();
+  quickPick.title = "Generated Mappings";
   quickPick.items = matches.map((match) => ({
     label: match.path,
     detail: `From ${match.from} — To ${match.to}`,
@@ -47,17 +62,30 @@ export async function createTargetFile(): Promise<void> {
 
   const matches = generateFilePaths(filePath);
 
-  const quickPick = vscode.window.createQuickPick();
-  quickPick.items = matches
+  if (matches.length === 0) {
+    displayStatusBarMessage("No mappings match current file.");
+    return;
+  }
+
+  const items = matches
     .map((match) => {
       if (fileExists(workspaceRootPath() + match.path)) return;
       return {
         label: match.path,
-        detail: `From ${match.from} — To ${match.to}`,
+        description: `From ${match.from} — To ${match.to}`,
         value: match.path,
       };
     })
     .filter(Boolean);
+
+  if (items.length === 0) {
+    displayStatusBarMessage("All matching files already exist.");
+    return;
+  }
+
+  const quickPick = vscode.window.createQuickPick();
+  quickPick.title = "Create File";
+  quickPick.items = items;
   quickPick.onDidChangeSelection((selection) => {
     const wsPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
     const filePath = vscode.Uri.file(wsPath + sep + selection[0].label);

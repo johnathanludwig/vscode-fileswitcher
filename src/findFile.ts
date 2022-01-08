@@ -1,7 +1,9 @@
 import * as vscode from "vscode";
+
 import {
   arrayToGlob,
   currentFile,
+  displayStatusBarMessage,
   stripRootPath,
   workspaceRootPath,
 } from "./utils";
@@ -81,13 +83,6 @@ export async function findFile(): Promise<vscode.Uri[] | undefined> {
   if (selectedFile) {
     return selectedFile;
   } else {
-    vscode.window.setStatusBarMessage(
-      "No matching file found",
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(true);
-        }, 5000);
-      })
-    );
+    displayStatusBarMessage("No matching file found.");
   }
 }
