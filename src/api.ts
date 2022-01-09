@@ -8,29 +8,23 @@ import {
   createFileIfNotExists,
   displayStatusBarMessage,
   fileExists,
+  openFile,
   workspaceRootPath,
 } from "./utils";
 
-function openFile(file, column = vscode.ViewColumn.Active): void {
-  if (file === undefined) return;
-
-  vscode.window.showTextDocument(file, column);
-}
-
 export async function switchFile(): Promise<void> {
-  const file = await findFile();
-
-  openFile(file);
+  findFile((file) => openFile(file));
 }
 
 export async function switchFileSplit(): Promise<void> {
-  const file = await findFile();
-  const column =
-    vscode.window.activeTextEditor.viewColumn === 1
-      ? vscode.ViewColumn.Two
-      : vscode.ViewColumn.One;
+  findFile((file) => {
+    const column =
+      vscode.window.activeTextEditor.viewColumn === 1
+        ? vscode.ViewColumn.Two
+        : vscode.ViewColumn.One;
 
-  openFile(file, column);
+    openFile(file, column);
+  });
 }
 
 export async function displayMappings(): Promise<void> {

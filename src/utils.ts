@@ -11,6 +11,15 @@ export function stripRootPath(file: string): string {
   return file.replace(workspaceRootPath(), "");
 }
 
+export function openFile(
+  file: vscode.Uri,
+  column = vscode.ViewColumn.Active
+): void {
+  if (file === undefined) return;
+
+  vscode.window.showTextDocument(file, { viewColumn: column });
+}
+
 export function currentFile(): string {
   const currentFile = vscode.window.activeTextEditor;
 
