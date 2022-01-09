@@ -56,33 +56,31 @@ function findMatchingFiles(file: string): Thenable<vscode.Uri[]> {
   );
 }
 
-async function selectFile(files): Promise<vscode.Uri[]> {
-  if (files.length <= 1) return files[0];
-
-  const selected = await vscode.window.showQuickPick(
-    files.map((file) => stripRootPath(file.path))
-  );
-
-  if (!selected) return;
-
-  const selectedFile = files.find(
-    (file) => file.path === workspaceRootPath() + selected
-  );
-
-  const file = await selectedFile;
-  return file;
-}
-
-export async function findFile(): Promise<vscode.Uri[] | undefined> {
+export async function findFile(
+  onSelect: (file: vscode.Uri) => void
+): Promise<void> {
   const filePath = currentFile();
   if (filePath === undefined) return;
 
   const files = await findMatchingFiles(filePath);
-  const selectedFile = await selectFile(files);
 
-  if (selectedFile) {
-    return selectedFile;
-  } else {
+  if (files.length === 0) {
     displayStatusBarMessage("No matching file found.");
+  } else if (files.length === 1) {
+    onSelect(files[0]);
+  } else {
+    const quickPick = vscode.window.createQuickPick();
+    quickPick.title = "Select File";
+    quickPick.items = files.map((file) => ({
+      label: stripRootPath(file.path),
+      path: file.path,
+    }));
+    quickPick.onDidChangeSelection((selectedFiles) => {
+      const file = files.find(
+        (file) => file.path === workspaceRootPath() + selectedFiles[0].label
+      );
+      onSelect(file);
+    });
+    quickPick.show();
   }
 }
