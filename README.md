@@ -10,7 +10,7 @@ Easily write your own rules to match any file type based on your own application
 
 #### Switch File
 
-![FileSwitcher Switch File](https://raw.githubusercontent.com/johnathanludwig/vscode-fileswitcher/raw/main/images/switch.gif)
+![FileSwitcher Switch File](https://raw.githubusercontent.com/johnathanludwig/vscode-fileswitcher/main/images/switch.gif)
 
 #### Create File
 
