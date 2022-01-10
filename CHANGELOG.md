@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0
+
+### Featurea
+
+- Added status message when creating files and no matches are found or all files already exist.
+
 ## v0.9.0
 
 ### Features
