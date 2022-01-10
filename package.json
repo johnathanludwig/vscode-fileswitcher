@@ -2,7 +2,7 @@
   "name": "fileswitcher",
   "displayName": "File Switcher",
   "description": "An unopinionated extension that will quickly jump to a file, of any type or location in your project)], related to the currently opened file.",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "author": {
     "name": "Johnathan Ludwig",
     "email": "john@johnathanludwig.com"
