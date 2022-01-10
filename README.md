@@ -1,10 +1,20 @@
 # FileSwitcher
 
-FileSwitcher allows you to quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure.
+FileSwitcher is an unopinionated VSCode extension that allows you to quickly jump to a file, of any type or location in your project, related to the currently opened file.
+
+Switch to a test file and back to your code, go from JS to CSS, from a models folder to a controllers folder, and so on.
+
+Easily write your own rules to match any file type based on your own application structure.5
 
 ### Preview
 
-![FileSwitcher preview](https://raw.githubusercontent.com/johnathanludwig/vscode-fileswitcher/master/images/preview.gif)
+#### Switch File
+
+![FileSwitcher Switch File](https://raw.githubusercontent.com/johnathanludwig/vscode-fileswitcher/raw/main/images/switch.gif)
+
+#### Create File
+
+![FileSwitcher Create File](https://raw.githubusercontent.com/johnathanludwig/vscode-fileswitcher/main/images/create.gif)
 
 ## Commands and Keybindings
 
@@ -20,13 +30,13 @@ Opens a matching file like "Switch File" but in a split editor.
 
 Default Keybind: `alt + shift + R`
 
-### List generated mappings for current file
-
-Displays the generated file names used for matching for the current file. Useful for debugging mappings.
-
 ### Create file from mapping
 
 Will display a list of mappings for the current file that do not exist. When selecting one it will create the file at the given path.
+
+### List generated mappings for current file
+
+Displays the generated file names used for matching for the current file. Useful for debugging mappings.
 
 ## Configuration
 
@@ -43,17 +53,17 @@ The `to` key should be a string path to the target file to open when "Switch Fil
 ```json
 "fileswitcher.mappings": [
   {
-    "from": "app/(.+)\\.(.+)",
-    "to": "test/:1_test.:2"
+    "from": "app/(.+)\\.(.+)", // app/components/button/button.js
+    "to": "test/:1.test.:2"    // test/components/button/button.test.js
   },
   {
-    "from": "test/(.+)_test\\.(.+)",
-    "to": "app/:1.:2"
+    "from": "test/(.+).test\\.(.+)", // test/components/button/button.test.js
+    "to": "app/:1.:2"                // app/components/button/button.js
   }
 ]
 ```
 
-In the example above, triggering switch file on `app/models/user.rb` will match the first mapping, set `:1` to `models/user`, and then open the related file `app/models/user_test.rb`. Triggering again on the test file will then match with the second mapping, and switch back to `app/models/user.rb`.
+In the example above, triggering switch file on `app/components/button/button.js` will match the first mapping, set `:1` to `components/button/button` and `:2` to `js`. Then it will open the related file `test/components/button/button_test.js`. Triggering again on the test file will then match with the second mapping, and switch back to `app/components/button/button.js`.
 
 ## Credits
 
