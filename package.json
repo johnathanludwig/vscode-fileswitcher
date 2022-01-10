@@ -1,7 +1,7 @@
 {
   "name": "fileswitcher",
   "displayName": "File Switcher",
-  "description": "Quickly jump to a file related to the currently opened file. Switch to a test file or back to your code. Easily write your own rules to match any file type based on your own application structure. ",
+  "description": "An unopinionated extension that will quickly jump to a file, of any type or location in your project)], related to the currently opened file.",
   "version": "0.9.0",
   "author": {
     "name": "Johnathan Ludwig",
@@ -21,7 +21,13 @@
   "keywords": [
     "file",
     "switch",
-    "test"
+    "switcher",
+    "test",
+    "goto",
+    "jump",
+    "navigate",
+    "navigation",
+    "create"
   ],
   "activationEvents": [
     "onCommand:fileswitcher.switchFile",
@@ -86,7 +92,7 @@
     "commands": [
       {
         "command": "fileswitcher.switchFile",
-        "title": "FileSwitcher: Switch File (dev)"
+        "title": "FileSwitcher: Switch File"
       },
       {
         "command": "fileswitcher.switchFileSplit",
