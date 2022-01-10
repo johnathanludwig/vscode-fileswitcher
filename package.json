@@ -131,10 +131,10 @@
   "devDependencies": {
     "@types/node": "^16.6.1",
     "@types/vscode": "^1.59.0",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
-    "@typescript-eslint/parser": "^4.29.2",
-    "eslint": "^7.32.0",
-    "typescript": "^4.3.5"
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "eslint": "^8.6.0",
+    "typescript": "^4.5.4"
   },
   "packageManager": "yarn@3.1.1"
 }
