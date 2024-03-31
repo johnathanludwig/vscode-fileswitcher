@@ -4,7 +4,7 @@ FileSwitcher is an unopinionated VSCode extension that allows you to quickly jum
 
 Switch to a test file and back to your code, go from JS to CSS, from a models folder to a controllers folder, and so on.
 
-Easily write your own rules to match any file type based on your own application structure.5
+Easily write your own rules to match any file type based on your own application structure.
 
 ### Preview
 
